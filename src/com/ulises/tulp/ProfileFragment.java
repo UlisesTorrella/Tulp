@@ -84,8 +84,8 @@ public class ProfileFragment extends Fragment {
 	     
 	        
 	        
-	    	public void setImgRange(String puntos){
-	    		int points = Integer.parseInt(puntos);
+	    	public void setImgRange(Long puntos){
+	    		long points = puntos;
 				int rangoint = 0;
 				if(points<50){
 					rangoint = 1;//pebete
@@ -151,7 +151,7 @@ public class ProfileFragment extends Fragment {
 	    		@Override
 	    		protected String doInBackground(String... user) {
 	    			String result = "";
-		    		ServiceCall srvc = new ServiceCall("http://1-dot-tulp-project.appspot.com");
+		    		ServiceCall srvc = new ServiceCall("http://tulp-project.appspot.com");
 		    		//ServiceCall srvc = new ServiceCall("http://localhost:8888");
 		    		try {
 						String data = srvc.get("/tulpserver?user="+user[0]);
@@ -176,12 +176,10 @@ public class ProfileFragment extends Fragment {
 	    					progress.dismiss();
 	    				}
 	    				else{
-		    				String[] parts = result.split("-");
-		    				String name = parts[0]; 
-		    				String points = parts[1]; 
-			    			setImgRange(points);
-			    			nombre.setText("Nombre:  "+name);
-			    			puntos.setText("Puntos:  "+points);
+	    					User usuario = new User(result);
+			    			nombre.setText("Nombre:  "+usuario.getName());
+			    			puntos.setText("Puntos:  "+usuario.getPoints());
+			    			setImgRange(usuario.getPoints());
 			    			progress.dismiss();
 	    				}
 	    			}

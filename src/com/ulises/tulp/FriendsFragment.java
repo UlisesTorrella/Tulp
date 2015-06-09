@@ -140,7 +140,6 @@ public class FriendsFragment extends Fragment {
     
     public void refrescarLista() {
     	// TODO Refrescar lista
-    		List<String> nada = new ArrayList<String>(0);
     		
     		ArrayList<Model> nombres = new ArrayList<Model>();
     		
@@ -165,22 +164,18 @@ public class FriendsFragment extends Fragment {
 		@Override
 		protected String doInBackground(String... empty) {
 			String result = "";
-    		ServiceCall srvc = new ServiceCall("http://1-dot-tulp-project.appspot.com");
+    		ServiceCall srvc = new ServiceCall("http://tulp-project.appspot.com");
     		//ServiceCall srvc = new ServiceCall("http://localhost:8888");
 
 			String data;
 			try {
 				data = srvc.get("/tulpfriends?user="+((MainActivity)getActivity()).getUserMail());
 	    		if(data != ""){
-	    			String[] amigos = data.split("%");
-		    		friends = new User[amigos.length];
-		    		for(int i=0; i<amigos.length;i++){
-		    			String cuenta = amigos[i];
-		    			String[] datos = cuenta.split("#");
-
-		    			User aux = new User(datos[0]);
-		    			aux.setName(datos[1]);
-		    			aux.setPoints(Long.parseLong(datos[2]));
+	    			//String[] amigos = data.split("-");
+		    		JSONArray amigos = new JSONArray(data);
+	    			friends = new User[amigos.length()];
+		    		for(int i=0; i<amigos.length();i++){
+		    			User aux = new User((String) amigos.get(i));
 		    			friends[i]=aux;
 		    			
 		    		}
@@ -188,6 +183,9 @@ public class FriendsFragment extends Fragment {
 	    		}
 				
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -217,7 +215,7 @@ public class FriendsFragment extends Fragment {
 		@Override
 		protected String doInBackground(String... data) {
 			String result = "";
-    		ServiceCall srvc = new ServiceCall("http://1-dot-tulp-project.appspot.com");
+    		ServiceCall srvc = new ServiceCall("http://tulp-project.appspot.com");
     		//ServiceCall srvc = new ServiceCall("http://localhost:8888");
     		
 			String nombre = data[0];

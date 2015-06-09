@@ -1,12 +1,25 @@
 package com.ulises.tulp;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	private String name;
 	private long points;
 	private String mail;
-	public User(String mail) {
-		super();
-		this.mail = mail;
+	//private String[] friendsMails;
+
+	public User(String rawString) {
+		String[] parts = rawString.split("#");
+		String nombre = parts[0]; 
+		String puntos = parts[1]; 
+		String correo = parts[2];
+		name=nombre;
+		points= Long.parseLong(puntos);
+		mail=correo;
+
+	}
+	public User(){
+		
 	}
 	public String getName() {
 		return name;
@@ -26,6 +39,22 @@ public class User {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+	/*
+	public String[] getFriendsMails() {
+		return friendsMails;
+	}
+	
+	public void setFriendsMails(String[] friends) {
+		friendsMails = friends;
+	}*/
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String result =
+				name+"#"+points+"#"+mail;
+		return result;
+	}
+	
 	
 	
 }
